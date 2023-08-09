@@ -23,7 +23,7 @@ public class StatServiceImpl implements StatService {
     @Override
     @Transactional
     public void addEndpointHit(EndpointHit endpointHit) {
-        Stat savedStat = statRepository.save(statMapper.MapEndpointHitToStat(endpointHit));
+        Stat savedStat = statRepository.save(statMapper.mapEndpointHitToStat(endpointHit));
         log.info("Stat was saved: {}", savedStat);
     }
 

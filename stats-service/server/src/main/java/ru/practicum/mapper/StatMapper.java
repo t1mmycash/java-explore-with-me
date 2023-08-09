@@ -6,7 +6,7 @@ import ru.practicum.model.Stat;
 
 @Component
 public class StatMapper {
-    public Stat MapEndpointHitToStat(EndpointHit endpointHit) {
+    public Stat mapEndpointHitToStat(EndpointHit endpointHit) {
         return Stat.builder()
                 .app(endpointHit.getApp())
                 .ip(endpointHit.getIp())
