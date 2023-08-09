@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class StatServiceImpl implements StatService{
+public class StatServiceImpl implements StatService {
     private final StatRepository statRepository;
     private final StatMapper statMapper;
 
