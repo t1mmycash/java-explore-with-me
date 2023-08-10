@@ -2,6 +2,7 @@ package ru.practicum.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.dto.EndpointHit;
@@ -30,17 +31,18 @@ public class StatServiceImpl implements StatService {
     @Override
     @Transactional(readOnly = true)
     public List<ViewStats> getStats(LocalDateTime start, LocalDateTime end, Boolean isUnique, List<String> uris) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "hits");
         if (isUnique) {
             if (uris.isEmpty()) {
-                return statRepository.getUniqueIpStats(start, end);
+                return statRepository.getUniqueIpStats(start, end, sort);
             } else {
-                return statRepository.getUniqueIpStatsByUris(start, end, uris);
+                return statRepository.getUniqueIpStatsByUris(start, end, uris, sort);
             }
         } else {
             if (uris.isEmpty()) {
-                return statRepository.getStats(start, end);
+                return statRepository.getStats(start, end, sort);
             } else {
-                return statRepository.getStatsByUris(start, end, uris);
+                return statRepository.getStatsByUris(start, end, uris, sort);
             }
         }
     }
