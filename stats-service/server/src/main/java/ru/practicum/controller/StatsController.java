@@ -34,7 +34,7 @@ public class StatsController {
             @RequestParam(name = "start") @DateTimeFormat(pattern = TIMESTAMP_PATTERN) LocalDateTime start,
             @RequestParam(name = "end") @DateTimeFormat(pattern = TIMESTAMP_PATTERN) LocalDateTime end,
             @RequestParam(name = "unique", defaultValue = "false") Boolean isUnique,
-            @RequestParam(name = "uris") List<String> uris
+            @RequestParam(name = "uris", defaultValue = "") List<String> uris
     ) {
         if (start.isAfter(end)) {
             throw new InvalidTimestampException("Start can`t be after than start");
