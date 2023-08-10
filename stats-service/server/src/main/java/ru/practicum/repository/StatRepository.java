@@ -26,14 +26,14 @@ public interface StatRepository extends JpaRepository<Stat, Integer> {
     @Query("select new ru.practicum.dto.ViewStats(s.app, s.uri, count(s.ip)) " +
             "from Stat as s " +
             "where s.timestamp between ?1 and ?2 " +
-            "and s.uri in ?3" +
+            "and s.uri in ?3 " +
             "group by s.app, s.uri ")
     List<ViewStats> getStatsByUris(LocalDateTime start, LocalDateTime end, List<String> uris);
 
     @Query("select new ru.practicum.dto.ViewStats(s.app, s.uri, count(distinct s.ip)) " +
             "from Stat as s " +
             "where s.timestamp between ?1 and ?2 " +
-            "and s.uri in ?3" +
+            "and s.uri in ?3 " +
             "group by s.app, s.uri ")
     List<ViewStats> getUniqueIpStatsByUris(LocalDateTime start, LocalDateTime end, List<String> uris);
 }
