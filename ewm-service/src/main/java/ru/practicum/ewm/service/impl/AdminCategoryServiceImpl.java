@@ -10,7 +10,7 @@ import ru.practicum.ewm.exception.EntityNotFoundException;
 import ru.practicum.ewm.mapper.CategoryMapper;
 import ru.practicum.ewm.model.Category;
 import ru.practicum.ewm.repository.CategoryRepository;
-import ru.practicum.ewm.services.AdminCategoryService;
+import ru.practicum.ewm.service.AdminCategoryService;
 
 import javax.transaction.Transactional;
 
