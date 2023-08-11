@@ -2,9 +2,9 @@ package ru.practicum.ewm.mapper;
 
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
-import ru.practicum.ewm.dto.CategoryDto;
-import ru.practicum.ewm.dto.NewCategoryDto;
-import ru.practicum.ewm.model.Category;
+import ru.practicum.ewm.dtos.CategoryDto;
+import ru.practicum.ewm.dtos.NewCategoryDto;
+import ru.practicum.ewm.models.Category;
 
 import java.util.List;
 

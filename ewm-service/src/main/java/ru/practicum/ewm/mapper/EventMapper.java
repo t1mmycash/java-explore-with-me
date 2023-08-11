@@ -2,18 +2,24 @@ package ru.practicum.ewm.mapper;
 
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
-import ru.practicum.ewm.dto.CategoryDto;
-import ru.practicum.ewm.dto.EventFullDto;
-import ru.practicum.ewm.dto.UserShortDto;
-import ru.practicum.ewm.model.Category;
-import ru.practicum.ewm.model.Event;
-import ru.practicum.ewm.model.User;
+import org.mapstruct.Mapping;
+import ru.practicum.ewm.dtos.*;
+import ru.practicum.ewm.models.Category;
+import ru.practicum.ewm.models.Event;
+import ru.practicum.ewm.models.User;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface EventMapper {
-    EventFullDto mapToEventFullDtoFromEvent(Event event);
+    EventFullDto mapToEventFullDto(Event event);
 
-    ///
+    List<EventShortDto> mapToListEventShortDto(List<Event> events);
+
+    @Mapping(target = "category", ignore = true)
+    Event mapToEvent(NewEventDto newEventDto);
+
+    List<EventFullDto> mapToListEventFullDto(List<Event> events);
 
     UserShortDto mapToUserShortDto(User user);
 
