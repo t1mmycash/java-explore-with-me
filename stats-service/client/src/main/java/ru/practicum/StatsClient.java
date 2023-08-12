@@ -2,8 +2,6 @@ package ru.practicum;
 
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -15,15 +13,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
-//@PropertySource(value = {"classpath:application.properties"})
 @Component
 public class StatsClient {
 
-    //@Value("${stats.server.url}")
-    private String baseUrl = "http://localhost:9090";
     private final WebClient client;
 
     public StatsClient() {
+        String baseUrl = "http://localhost:9090";
         this.client = WebClient.create(baseUrl);
     }
 
