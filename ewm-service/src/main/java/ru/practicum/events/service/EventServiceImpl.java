@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.dto.ViewStats;
+import ru.practicum.dto.dto.ViewStats;
 import ru.practicum.events.EventState;
 import ru.practicum.events.SortEvents;
 import ru.practicum.requests.repository.RequestRepository;
