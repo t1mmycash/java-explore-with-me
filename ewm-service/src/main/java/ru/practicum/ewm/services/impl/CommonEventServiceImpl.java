@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+
 public class CommonEventServiceImpl implements CommonEventService {
     private final StatsClient statsClient;
     private final ParticipationRequestRepository participationRequestRepository;

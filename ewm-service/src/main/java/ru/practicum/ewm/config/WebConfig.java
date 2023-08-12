@@ -8,6 +8,7 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import ru.practicum.StatsClient;
 
 import java.time.format.DateTimeFormatter;
 
@@ -19,6 +20,11 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
         return builder -> builder.deserializers(new LocalDateTimeDeserializer(DATE_TIME_FORMATTER));
+    }
+
+    @Bean
+    public StatsClient statsClient() {
+        return new StatsClient();
     }
 
     @Override

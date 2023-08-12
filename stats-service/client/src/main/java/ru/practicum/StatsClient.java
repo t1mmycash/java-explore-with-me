@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.practicum.dto.EndpointHit;
 import ru.practicum.dto.ViewStats;
@@ -14,13 +14,13 @@ import ru.practicum.dto.ViewStats;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Service
 @Slf4j
-@PropertySource(value = {"classpath:statsClient.properties"})
+//@PropertySource(value = {"classpath:application.properties"})
+@Component
 public class StatsClient {
 
-    @Value("${stats.server.url}")
-    private String baseUrl;
+    //@Value("${stats.server.url}")
+    private String baseUrl = "http://localhost:9090";
     private final WebClient client;
 
     public StatsClient() {
