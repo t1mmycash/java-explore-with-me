@@ -5,45 +5,45 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.dto.EndpointHit;
-import ru.practicum.dto.ViewStats;
-import ru.practicum.mapper.StatMapper;
-import ru.practicum.model.Stat;
+import ru.practicum.dto.dto.EndpointHit;
+import ru.practicum.dto.dto.ViewStats;
+import ru.practicum.model.StatMapper;
+import ru.practicum.model.StatSvc;
 import ru.practicum.repository.StatRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
+@Slf4j
+@Transactional(readOnly = true)
 public class StatServiceImpl implements StatService {
-    private final StatRepository statRepository;
-    private final StatMapper statMapper;
+
+    private final StatRepository repository;
 
     @Override
     @Transactional
-    public void addEndpointHit(EndpointHit endpointHit) {
-        Stat savedStat = statRepository.save(statMapper.mapEndpointHitToStat(endpointHit));
-        log.info("Stat was saved: {}", savedStat);
+    public void saveStat(EndpointHit dto) {
+        StatSvc stat = repository.save(StatMapper.mapToStat(dto));
+        log.info("Save stat {}", stat);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<ViewStats> getStats(LocalDateTime start, LocalDateTime end, Boolean isUnique, List<String> uris) {
+    public List<ViewStats> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
         Sort sort = Sort.by(Sort.Direction.DESC, "hits");
-        if (isUnique) {
-            if (uris.isEmpty()) {
-                return statRepository.getUniqueIpStats(start, end, sort);
-            } else {
-                return statRepository.getUniqueIpStatsByUris(start, end, uris, sort);
+
+        if (uris.isEmpty()) {
+            if (unique) {
+                return repository.getStatsWithUniqueIp(start, end, sort);
             }
-        } else {
-            if (uris.isEmpty()) {
-                return statRepository.getStats(start, end, sort);
-            } else {
-                return statRepository.getStatsByUris(start, end, uris, sort);
-            }
+
+            return repository.getStats(start, end, sort);
         }
+        if (unique) {
+            return repository.getStatsByUrisListWithUniqueIp(start, end, uris, sort);
+        }
+
+        return repository.getStatsByUrisList(start, end, uris, sort);
     }
 }
