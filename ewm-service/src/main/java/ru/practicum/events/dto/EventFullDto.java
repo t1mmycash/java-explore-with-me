@@ -28,7 +28,7 @@ public class EventFullDto {
     private Location location;
     private boolean paid;
     private int participantLimit;
-    private int confirmedRequests;
+    private long confirmedRequests;
     private long views;
     private EventState state;
 
