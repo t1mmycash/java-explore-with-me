@@ -2,9 +2,9 @@ package ru.practicum.events.dto;
 
 import lombok.experimental.UtilityClass;
 import ru.practicum.categories.model.Category;
-import ru.practicum.events.model.Event;
-import ru.practicum.events.model.Location;
 import ru.practicum.users.model.User;
+import ru.practicum.events.model.Location;
+import ru.practicum.events.model.Event;
 
 import static ru.practicum.categories.dto.CategoryMapper.toCategoryDto;
 import static ru.practicum.users.dto.UserMapper.toUserShortDto;
@@ -12,21 +12,17 @@ import static ru.practicum.users.dto.UserMapper.toUserShortDto;
 @UtilityClass
 public class EventMapper {
 
-    public static Event mapToNewEvent(NewEventDto eventDto, User user, Category category) {
-        Event event = new Event();
-        event.setAnnotation(eventDto.getAnnotation());
-        event.setCategory(category);
-        event.setDescription(eventDto.getDescription());
-        event.setEventDate(eventDto.getEventDate());
-        event.setLat(eventDto.getLocation().getLat());
-        event.setLon(eventDto.getLocation().getLon());
-        event.setPaid(eventDto.getPaid());
-        event.setParticipantLimit(eventDto.getParticipantLimit());
-        event.setRequestModeration(eventDto.getRequestModeration());
-        event.setTitle(eventDto.getTitle());
-        event.setInitiator(user);
+    public static EventShortDto mapToEventShortDto(Event event) {
+        EventShortDto shortDto = new EventShortDto();
+        shortDto.setAnnotation(event.getAnnotation());
+        shortDto.setCategory(toCategoryDto(event.getCategory()));
+        shortDto.setEventDate(event.getEventDate());
+        shortDto.setId(event.getId());
+        shortDto.setInitiator(toUserShortDto(event.getInitiator()));
+        shortDto.setPaid(event.getPaid());
+        shortDto.setTitle(event.getTitle());
 
-        return event;
+        return shortDto;
     }
 
     public static EventFullDto mapToEventFullDto(Event event) {
@@ -55,16 +51,20 @@ public class EventMapper {
         return eventFullDto;
     }
 
-    public static EventShortDto mapToEventShortDto(Event event) {
-        EventShortDto shortDto = new EventShortDto();
-        shortDto.setAnnotation(event.getAnnotation());
-        shortDto.setCategory(toCategoryDto(event.getCategory()));
-        shortDto.setEventDate(event.getEventDate());
-        shortDto.setId(event.getId());
-        shortDto.setInitiator(toUserShortDto(event.getInitiator()));
-        shortDto.setPaid(event.getPaid());
-        shortDto.setTitle(event.getTitle());
+    public static Event mapToNewEvent(NewEventDto eventDto, User user, Category category) {
+        Event event = new Event();
+        event.setAnnotation(eventDto.getAnnotation());
+        event.setCategory(category);
+        event.setDescription(eventDto.getDescription());
+        event.setEventDate(eventDto.getEventDate());
+        event.setLat(eventDto.getLocation().getLat());
+        event.setLon(eventDto.getLocation().getLon());
+        event.setPaid(eventDto.getPaid());
+        event.setParticipantLimit(eventDto.getParticipantLimit());
+        event.setRequestModeration(eventDto.getRequestModeration());
+        event.setTitle(eventDto.getTitle());
+        event.setInitiator(user);
 
-        return shortDto;
+        return event;
     }
 }

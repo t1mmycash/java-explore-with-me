@@ -1,40 +1,31 @@
 package ru.practicum.events.controllers;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.events.dto.*;
+import org.springframework.http.HttpStatus;
 import ru.practicum.events.service.EventService;
-import ru.practicum.requests.dto.EventRequestStatusUpdateRequest;
+import ru.practicum.events.dto.*;
 import ru.practicum.requests.dto.EventRequestStatusUpdateResult;
+import ru.practicum.requests.dto.EventRequestStatusUpdateRequest;
 import ru.practicum.requests.dto.ParticipationRequestDto;
 import ru.practicum.requests.service.RequestService;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
 import java.util.Collection;
+import javax.validation.Valid;
+import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Positive;
 
 @RestController
 @RequestMapping("/users/{userId}/events")
-@RequiredArgsConstructor
 @Slf4j
 @Validated
+@RequiredArgsConstructor
 public class PrivateEventController {
 
-    private final EventService eventService;
     private final RequestService requestService;
-
-    @GetMapping
-    @ResponseStatus(value = HttpStatus.OK)
-    public Collection<EventShortDto> getEventsByUserId(@PathVariable(value = "userId") Long userId, // id текущего пользователя
-                                               @RequestParam(value = "from", defaultValue = "0") @PositiveOrZero Integer from,
-                                               @RequestParam(value = "size", defaultValue = "10") @Positive Integer size) {
-        log.info("Get events by userId {} with parameters from {} size {}", userId, from, size);
-        return eventService.getAllEventsByUserId(userId, from, size);
-    }
+    private final EventService eventService;
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -44,12 +35,14 @@ public class PrivateEventController {
         return eventService.saveEventByIdUser(userId, eventDto);
     }
 
-    @GetMapping("/{eventId}")
+    @PatchMapping("/{eventId}/requests")
     @ResponseStatus(value = HttpStatus.OK)
-    public EventFullDto getEventById(@PathVariable(value = "userId") Long userId,
-                                     @PathVariable(value = "eventId") Long eventId) {
-        log.info("Get event by userId {} and event Id {}", userId, eventId);
-        return eventService.getEventById(userId, eventId);
+    public EventRequestStatusUpdateResult updateEventRequestStatus(
+            @PathVariable(value = "userId") Long userId,
+            @PathVariable(value = "eventId") Long eventId,
+            @RequestBody EventRequestStatusUpdateRequest updateRequest) {
+        log.info("Updating status participation request by user Id {} and event Id {}", userId, eventId);
+        return requestService.updateEventRequestStatus(userId,eventId, updateRequest);
     }
 
     @PatchMapping("/{eventId}")
@@ -61,7 +54,6 @@ public class PrivateEventController {
         return eventService.updateEventById(userId, eventId, eventDto);
     }
 
-    // Получение информации о запросах на участие в событии текущего пользователя.
     @GetMapping("/{eventId}/requests")
     @ResponseStatus(value = HttpStatus.OK)
     public Collection<ParticipationRequestDto> getParticipationRequestByIdEvent(
@@ -71,14 +63,20 @@ public class PrivateEventController {
         return requestService.getParticipationRequest(userId,eventId);
     }
 
-    // Изменение статуса (подтверждена, отменена) заявок на участие в событии текущего пользователя.
-    @PatchMapping("/{eventId}/requests")
+    @GetMapping("/{eventId}")
     @ResponseStatus(value = HttpStatus.OK)
-    public EventRequestStatusUpdateResult updateEventRequestStatus(
-            @PathVariable(value = "userId") Long userId,
-            @PathVariable(value = "eventId") Long eventId,
-            @RequestBody EventRequestStatusUpdateRequest updateRequest) {
-        log.info("Updating status participation request by user Id {} and event Id {}", userId, eventId);
-        return requestService.updateEventRequestStatus(userId,eventId, updateRequest);
+    public EventFullDto getEventById(@PathVariable(value = "userId") Long userId,
+                                     @PathVariable(value = "eventId") Long eventId) {
+        log.info("Get event by userId {} and event Id {}", userId, eventId);
+        return eventService.getEventById(userId, eventId);
+    }
+
+    @GetMapping
+    @ResponseStatus(value = HttpStatus.OK)
+    public Collection<EventShortDto> getEventsByUserId(@PathVariable(value = "userId") Long userId,
+                                                       @RequestParam(value = "from", defaultValue = "0") @PositiveOrZero Integer from,
+                                                       @RequestParam(value = "size", defaultValue = "10") @Positive Integer size) {
+        log.info("Get events by userId {} with parameters from {} size {}", userId, from, size);
+        return eventService.getAllEventsByUserId(userId, from, size);
     }
 }

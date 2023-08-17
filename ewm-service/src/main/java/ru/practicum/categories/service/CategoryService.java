@@ -15,4 +15,6 @@ public interface CategoryService {
     List<CategoryDto> getCategory(int from, int size);
 
     CategoryDto getCategoryById(Long catId);
+
+
 }

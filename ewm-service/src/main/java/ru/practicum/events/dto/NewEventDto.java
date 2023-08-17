@@ -23,31 +23,21 @@ public class NewEventDto {
 
     @NotBlank
     @Size(max = 2000, min = 20)
-    private String annotation; // Краткое описание;
-
+    private String annotation;
     @NotNull(message = "Field: category. Error: must not be blank. Value: null")
-    private Long category; // id категории к которой относится событие;
-
+    private Long category;
     @NotBlank
     @Size(max = 7000, min = 20)
-    private String description; // Полное описание события;
-
+    private String description;
     @NotNull
     @Future
     @JsonFormat(pattern = PATTERN_DATE)
-    private LocalDateTime eventDate; // Дата и время на которые намечено событие (в формате "yyyy-MM-dd HH:mm:ss");
-
-    private Location location; // Широта и долгота места проведения события;
-    private Boolean paid = false; // Нужно ли оплачивать участие в событии. Default: false;
-
-    // Ограничение на количество участников. Значение 0 - означает отсутствие ограничения. Default: 0;
+    private LocalDateTime eventDate;
+    private Location location;
+    private Boolean paid = false;
     private Integer participantLimit = 0;
-
-    /* Нужна ли пре-модерация заявок на участие. Если true, то все заявки будут ожидать подтверждения инициатором события.
-    Если false - то будут подтверждаться автоматически. Default: true*/
     private Boolean requestModeration = true;
-
     @NotBlank
     @Size(max = 120, min = 3)
-    private String title; // Заголовок события;
+    private String title;
 }

@@ -1,8 +1,8 @@
 package ru.practicum.categories.model;
 
-import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.Getter;
 
 import javax.persistence.*;
 
@@ -12,9 +12,9 @@ import javax.persistence.*;
         uniqueConstraints = {
         @UniqueConstraint(name = "category_name_unique", columnNames = "name")}
 )
+@ToString
 @Getter
 @Setter
-@ToString
 public class Category {
 
     @Id

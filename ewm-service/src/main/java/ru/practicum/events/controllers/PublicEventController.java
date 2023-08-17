@@ -23,35 +23,35 @@ import static ru.practicum.util.Constants.PATTERN_DATE;
 
 @RestController
 @RequestMapping("/events")
-@RequiredArgsConstructor
 @Slf4j
 @Validated
+@RequiredArgsConstructor
 public class PublicEventController {
 
     private final EventService eventService;
 
+    @GetMapping("/{id}")
+    @ResponseStatus(value = HttpStatus.OK)
+    public EventFullDto getEventByIdPublic(@PathVariable(value = "id") Long id,
+                                           HttpServletRequest request) {
+        log.debug("Get event by Id {}", id);
+        log.debug("client ip: {}", request.getRemoteAddr());
+        log.debug("endpoint path: {}", request.getRequestURI());
+
+        String ip = request.getRemoteAddr();
+        String url = request.getRequestURI();
+        return eventService.getEventByIdPublic(id, url, ip);
+    }
+
     @GetMapping
     @ResponseStatus(value = HttpStatus.OK)
     public Collection<EventShortDto> getEventsPublic(
-            // текст для поиска в содержимом аннотации и подробном описании события
             @RequestParam(required = false) String text,
-
-            // список идентификаторов категорий в которых будет вестись поиск
             @RequestParam(required = false) List<Long> categories,
-
-            // поиск только платных/бесплатных событий
             @RequestParam(required = false) Boolean paid,
-
-            // дата и время не раньше которых должно произойти событие
             @RequestParam(required = false) @DateTimeFormat(pattern = PATTERN_DATE) LocalDateTime rangeStart,
-
-            // дата и время не позже которых должно произойти событие
             @RequestParam(required = false) @DateTimeFormat(pattern = PATTERN_DATE) LocalDateTime rangeEnd,
-
-            // только события у которых не исчерпан лимит запросов на участие
             @RequestParam(defaultValue = "false") Boolean onlyAvailable,
-
-            // Вариант сортировки: по дате события или по количеству просмотров
             @RequestParam(defaultValue = "EVENT_DATE") String sort,
             @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
             @RequestParam(defaultValue = "10") @Positive Integer size,
@@ -68,18 +68,5 @@ public class PublicEventController {
         String url = request.getRequestURI();
         return eventService.getEventsPublic(text, categories, paid, rangeStart, rangeEnd,
                 onlyAvailable, sortParam, from, size, url, ip);
-    }
-
-    @GetMapping("/{id}")
-    @ResponseStatus(value = HttpStatus.OK)
-    public EventFullDto getEventByIdPublic(@PathVariable(value = "id") Long id,
-                                           HttpServletRequest request) {
-        log.debug("Get event by Id {}", id);
-        log.debug("client ip: {}", request.getRemoteAddr());
-        log.debug("endpoint path: {}", request.getRequestURI());
-
-        String ip = request.getRemoteAddr();
-        String url = request.getRequestURI();
-        return eventService.getEventByIdPublic(id, url, ip);
     }
 }

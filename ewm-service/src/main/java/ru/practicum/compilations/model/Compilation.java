@@ -1,8 +1,8 @@
 package ru.practicum.compilations.model;
 
-import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.Getter;
 import org.hibernate.annotations.DynamicUpdate;
 import ru.practicum.events.model.Event;
 
@@ -11,9 +11,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "compilations")
-@ToString
-@Getter
 @Setter
+@Getter
+@ToString
 @DynamicUpdate
 public class Compilation {
 
@@ -23,13 +23,13 @@ public class Compilation {
             name = "id",
             updatable = false
     )
-    private Long id;  // Идентификатор;
+    private Long id;
 
     @Column(name = "pinned", nullable = false)
-    private Boolean pinned; // Закреплена ли подборка на главной странице сайта;
+    private Boolean pinned;
 
     @Column(name = "title", nullable = false)
-    private String title; // Заголовок подборки.
+    private String title;
 
     @ManyToMany(cascade = {
             CascadeType.PERSIST,

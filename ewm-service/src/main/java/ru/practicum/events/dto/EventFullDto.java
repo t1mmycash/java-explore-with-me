@@ -1,36 +1,36 @@
 package ru.practicum.events.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import ru.practicum.categories.dto.CategoryDto;
-import ru.practicum.events.EventState;
 import ru.practicum.events.model.Location;
+import ru.practicum.events.EventState;
 import ru.practicum.users.dto.UserShortDto;
 
 import java.time.LocalDateTime;
 
 import static ru.practicum.util.Constants.PATTERN_DATE;
 
-@Setter
 @Getter
-@ToString
-@NoArgsConstructor
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class EventFullDto {
 
-    private Long id; // Идентификатор;
-    private String title; // Заголовок;
-    private String annotation; // Краткое описание;
+    private Long id;
+    private String title;
+    private String annotation;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = PATTERN_DATE)
-    private LocalDateTime eventDate; // Дата и время на которые намечено событие (в формате "yyyy-MM-dd HH:mm:ss");
-    private Location location; // Широта и долгота места проведения события;
-    private boolean paid; // Нужно ли оплачивать участие;
-    private int participantLimit; // Ограничение на количество участников;
-    private int confirmedRequests; // Количество одобренных заявок на участие в данном событии;
-    private long views; // Количество просмотров события.
-    private EventState state; // Список состояний жизненного цикла события;
+    private LocalDateTime eventDate;
+    private Location location;
+    private boolean paid;
+    private int participantLimit;
+    private int confirmedRequests;
+    private long views;
+    private EventState state;
 
     @JsonUnwrapped
     public AdditionalEventInformation eventInformation;
@@ -42,15 +42,13 @@ public class EventFullDto {
     @ToString
     protected static class AdditionalEventInformation {
 
-        private String description; // Полное описание события;
-        private CategoryDto category; // Категория;
-        private boolean requestModeration; // Нужна ли пре-модерация заявок на участие, default: true;
-        private UserShortDto initiator; // Инициатор;
-
+        private String description;
+        private CategoryDto category;
+        private boolean requestModeration;
+        private UserShortDto initiator;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = PATTERN_DATE)
-        private LocalDateTime publishedOn; // Дата и время публикации события (в формате "yyyy-MM-dd HH:mm:ss");
-
+        private LocalDateTime publishedOn;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = PATTERN_DATE)
-        private LocalDateTime createdOn; // Дата и время создания события (в формате "yyyy-MM-dd HH:mm:ss")
+        private LocalDateTime createdOn;
     }
 }
